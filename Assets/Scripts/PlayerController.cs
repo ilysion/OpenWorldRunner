@@ -11,8 +11,9 @@ public class PlayerController : MonoBehaviour {
 	private float playerHeightOffset = 1;
 	//private Rigidbody rb; 
 	private bool jumping = false;
-	private float gravity = 0.005f;
+	private float gravity = 0.3f;
 	private float jumpAcceleration;
+	public float mouseSensitivity = 100;
 
 	// Use this for initialization
 	void Start () {
@@ -22,12 +23,17 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+		Cursor.lockState = CursorLockMode.Locked;
+
 		float horizontal = Input.GetAxis("Horizontal");
 		float vertical = Input.GetAxis("Vertical");
 		float jump = Input.GetAxis("Jump");
+		float mouseX = Input.GetAxis("Mouse X");
+		
 
-		//float mouseX = Input.GetAxis("Mouse X");
-		//Debug.Log(mouseX);
+		transform.Rotate(mouseSensitivity * mouseX * Vector3.up * Time.deltaTime);
+
+
 
 		if (jump > 0 && !jumping) {
 			jumpAcceleration = jumpHeight;
@@ -48,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 
 		// If jump value is higher than terrain height use jump value
 		transform.Translate(moveSpeed * direction.x, Mathf.Max(jumpAcceleration, deltaHeight), moveSpeed * direction.z);
-		jumpAcceleration -= gravity;
+		jumpAcceleration -= Time.deltaTime * gravity;
 
 		// Reset jump if landed
 		if (jumpAcceleration < deltaHeight) {
