@@ -20,8 +20,14 @@ public class TerrainGenerator : MonoBehaviour {
 
         Terrain terrain = GetComponent<Terrain>();
         terrain.terrainData = GenerateTerrain(terrain.terrainData);
-        GenerateTerrainDetail(terrain.terrainData) ;
+        GenerateMapTextures(terrain);
+        GenerateTerrainDetail(terrain.terrainData);
 
+
+    }
+
+    private void GenerateMapTextures(Terrain terrain)
+    {
         //terrain texture accoring to depth from here
         TerrainData terrainData = terrain.terrainData;
         float maxHeight = GetMaxHeight(terrainData, terrainData.heightmapWidth);
@@ -31,14 +37,8 @@ public class TerrainGenerator : MonoBehaviour {
         {
             for (int x = 0; x < terrainData.alphamapWidth; x++)
             {
-                // Normalise x, y
-                float y_01 = (float)y / (float)terrainData.alphamapHeight;
-                float x_01 = (float)x / (float)terrainData.alphamapWidth;
-
                 //Gets height at this coordinates
-                float height = terrainData.GetHeight(Mathf.RoundToInt(y_01 * terrainData.heightmapHeight), Mathf.RoundToInt(x_01 * terrainData.heightmapWidth));
-                //Normalise height
-                float normHeight = height / maxHeight;
+                float height = GetHeightAlpha(terrainData, x, y);
 
                 //Erase existing splatmap at this point
                 for (int i = 0; i < terrainData.alphamapLayers; i++)
@@ -74,7 +74,7 @@ public class TerrainGenerator : MonoBehaviour {
                     splatWeights[2] = 1;
                 }
 
-                
+
                 float z = splatWeights.Sum();
 
                 if (Mathf.Approximately(z, 0.0f))
@@ -86,13 +86,30 @@ public class TerrainGenerator : MonoBehaviour {
                 {
                     // Normalize so sum = 1
                     splatWeights[i] /= z;
-                   
+
                     splatmapData[x, y, i] = splatWeights[i];
                 }
             }
         }
         terrainData.SetAlphamaps(0, 0, splatmapData);
+    }
 
+    private float GetHeightAlpha(TerrainData terrainData, int x, int y)
+    {
+        float y_01 = (float)y / (float)terrainData.alphamapHeight;
+        float x_01 = (float)x / (float)terrainData.alphamapWidth;
+        //Gets height at this coordinates
+        float height = terrainData.GetHeight(Mathf.RoundToInt(y_01 * terrainData.heightmapHeight), Mathf.RoundToInt(x_01 * terrainData.heightmapWidth));
+        return height;
+    }
+
+    private float GetHeightDetail(TerrainData terrainData, int x, int y)
+    {
+        float y_01 = (float)y / (float)terrainData.detailHeight;
+        float x_01 = (float)x / (float)terrainData.detailWidth;
+        //Gets height at this coordinates
+        float height = terrainData.GetHeight(Mathf.RoundToInt(y_01 * terrainData.heightmapWidth), Mathf.RoundToInt(x_01 * terrainData.heightmapWidth));
+        return height;
     }
 
     private float GetMaxHeight(TerrainData terrainData, int heightmapWidth)
@@ -111,7 +128,8 @@ public class TerrainGenerator : MonoBehaviour {
         }
         return maxHeight;
     }
-
+    
+    //Generates details for terrain (atm only grass)
     void GenerateTerrainDetail(TerrainData terrainData)
     {
         int detailWidth = terrainData.detailWidth;
@@ -127,32 +145,58 @@ public class TerrainGenerator : MonoBehaviour {
         {
             for (y = 0; y < detailHeight; y++)
             {
-                strength = Random.Range(1, 4);
+                float height = GetHeightDetail(terrainData, x, y);
+                
+                if (height <= 10)
+                {
+                    strength = Random.Range(1, 5);
+                    
+                    float grassTypeRandom = Random.Range(0, 3);
+                    if (grassTypeRandom < 1)
+                    {
+                        details0[x, y] = strength;
+                    }
+                    else if (grassTypeRandom < 2)
+                    {
+                        details1[x, y] = strength;
+                    }
+                    else
+                    {
+                        details2[x, y] = strength;
+                    }
+                }
+                else if (height <= 25)
+                {
+                    int from = 0;
+                    int fromTo = Mathf.RoundToInt((height - 10) * 2);
+                    strength = Random.Range(1, 5);
+                    float grassTypeRandom = Random.Range(from, fromTo);
+                    if (grassTypeRandom < 1)
+                    {
+                        details0[x, y] = strength;
+                    }
+                    else if (grassTypeRandom < 2)
+                    {
+                        details1[x, y] = strength;
+                    }
+                    else if (grassTypeRandom < 3)
+                    {
+                        details2[x, y] = strength;
+                    }
+                }
 
-                float grassTypeRandom = Random.Range(0, 3);
-                if (grassTypeRandom < 1)
-                {
-                    details0[y, x] = strength;
-                }
-                else if (grassTypeRandom < 2)
-                {
-                    details1[y, x] = strength;
-                }
-                else
-                {
-                    details2[y, x] = strength;
-                }
+
             }
         }
-
+        
         terrainData.SetDetailLayer(0, 0, 0, details0);
         terrainData.SetDetailLayer(0, 0, 1, details1);
         terrainData.SetDetailLayer(0, 0, 2, details2);
     }
 
 
-
-TerrainData GenerateTerrain(TerrainData terraindata)
+    //Generates Terrain land
+    TerrainData GenerateTerrain(TerrainData terraindata)
     {
         terraindata.heightmapResolution = width + 1;
         terraindata.size = new Vector3(width, depth, height);
@@ -177,12 +221,20 @@ TerrainData GenerateTerrain(TerrainData terraindata)
         return heights;
     }
 
+    float AddNoise1(int x, int y)
+    {
+        float xCoord = (float)x / width * scale + offsetX + 1000;
+        float yCoord = (float)y / height * scale + offsetY + 2000;
+
+        return Mathf.PerlinNoise(xCoord * 0.2f, yCoord * 0.2f);
+    }
+
     float CalculateHeight (int x, int y)
     {
         float xCoord = (float) x / width * scale + offsetX;
         float yCoord = (float) y / height * scale + offsetY;
 
-        return Mathf.PerlinNoise(xCoord, yCoord);
+        return Mathf.PerlinNoise(xCoord * 0.5f, yCoord * 0.5f);
     }
 
     //at the moment is used at 0 - 256 x
