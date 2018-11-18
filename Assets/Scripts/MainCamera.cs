@@ -16,7 +16,7 @@ public class MainCamera : MonoBehaviour {
 		
 		// Stick to player
 		Vector3 playerPosition = player.transform.position;
-		transform.position = new Vector3(playerPosition.x, playerPosition.y + 3f, playerPosition.z - 5f);
+		transform.position = new Vector3(playerPosition.x, playerPosition.y + 2.5f, playerPosition.z - 7f);
 		transform.LookAt(playerPosition);
 
 	}

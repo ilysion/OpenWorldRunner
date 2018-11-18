@@ -9,12 +9,14 @@ public class PlayerController : MonoBehaviour {
 	public Terrain terrain;
 	// Distance from center of model to bottom
 	private float playerHeightOffset = 1;
-	Rigidbody rb; 
-	bool jumping = false;
+	//private Rigidbody rb; 
+	private bool jumping = false;
+	private float gravity = 0.005f;
+	private float jumpAcceleration;
 
 	// Use this for initialization
 	void Start () {
-		rb = gameObject.GetComponent<Rigidbody>();
+		//rb = gameObject.GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
@@ -24,10 +26,11 @@ public class PlayerController : MonoBehaviour {
 		float vertical = Input.GetAxis("Vertical");
 		float jump = Input.GetAxis("Jump");
 
-		if (jump > 0 && !jumping) {
+		//float mouseX = Input.GetAxis("Mouse X");
+		//Debug.Log(mouseX);
 
-			rb.isKinematic = false;
-			rb.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
+		if (jump > 0 && !jumping) {
+			jumpAcceleration = jumpHeight;
 			jumping = true;
 		}
 
@@ -40,19 +43,16 @@ public class PlayerController : MonoBehaviour {
 			direction = Time.deltaTime * new Vector3(horizontal, 0, vertical);
 		}
 
+		// Distance between terrain and player 
 		float deltaHeight = terrain.SampleHeight(transform.position) - transform.position.y + playerHeightOffset;
-		Debug.Log(deltaHeight);
 
-		if (!jumping) {
- 			transform.Translate(moveSpeed * direction.x, deltaHeight, moveSpeed * direction.z);
-		} else {
-			// Moving while jumping can be configured here
-			transform.Translate(moveSpeed * direction.x, 0, moveSpeed * direction.z);
+		// If jump value is higher than terrain height use jump value
+		transform.Translate(moveSpeed * direction.x, Mathf.Max(jumpAcceleration, deltaHeight), moveSpeed * direction.z);
+		jumpAcceleration -= gravity;
 
-			//if (deltaHeight < 0.5) {
-			//	rb.isKinematic = true;
-			//	jumping = false;
-			//}
+		// Reset jump if landed
+		if (jumpAcceleration < deltaHeight) {
+			jumping = false;
 		}
  	}
 }
