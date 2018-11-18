@@ -8,6 +8,8 @@ More content coming soon, stay tuned!
 
 ![SampleImage](https://i.imgur.com/I173AG0.jpg)
 
+![SampleImage2](https://i.imgur.com/sodmt5y.jpg)
+
 ##Launching Guide:
 
 A step by step tutorial to get the game running.
