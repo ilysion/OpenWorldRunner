@@ -134,10 +134,12 @@ public class TerrainGenerator : MonoBehaviour {
     {
         int detailWidth = terrainData.detailWidth;
         int detailHeight = terrainData.detailHeight;
+        float maxHeight = GetMaxHeight(terrainData, terrainData.heightmapWidth);
 
         int[,] details0 = new int[detailWidth, detailHeight];
         int[,] details1 = new int[detailWidth, detailHeight];
         int[,] details2 = new int[detailWidth, detailHeight];
+        int[,] details3 = new int[detailWidth, detailHeight];
 
         int x, y, strength;
 
@@ -168,7 +170,7 @@ public class TerrainGenerator : MonoBehaviour {
                 else if (height <= 25)
                 {
                     int from = 0;
-                    int fromTo = Mathf.RoundToInt((height - 10) * 2);
+                    int fromTo = Mathf.RoundToInt((height - 10) * 5);
                     strength = Random.Range(1, 5);
                     float grassTypeRandom = Random.Range(from, fromTo);
                     if (grassTypeRandom < 1)
@@ -184,14 +186,25 @@ public class TerrainGenerator : MonoBehaviour {
                         details2[x, y] = strength;
                     }
                 }
+                else if (height > 15)
+                {
+                    int to = Mathf.RoundToInt((maxHeight - (height - 15)) * 10);
+                    float stoneRandom = Random.Range(0, to);
+                    if(stoneRandom < 1)
+                    {
 
-
+                        strength = Random.Range(1, 5);
+                        details3[x, y] = strength;
+                    }
+                }
+                
             }
         }
         
         terrainData.SetDetailLayer(0, 0, 0, details0);
         terrainData.SetDetailLayer(0, 0, 1, details1);
         terrainData.SetDetailLayer(0, 0, 2, details2);
+        terrainData.SetDetailLayer(0, 0, 3, details3);
     }
 
 
