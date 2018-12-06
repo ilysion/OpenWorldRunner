@@ -192,9 +192,8 @@ public class TerrainGenerator : MonoBehaviour {
                     float stoneRandom = Random.Range(0, to);
                     if(stoneRandom < 1)
                     {
-
-                        strength = Random.Range(1, 5);
-                        details3[x, y] = strength;
+                        
+                        details3[x, y] = 1;
                     }
                 }
                 
