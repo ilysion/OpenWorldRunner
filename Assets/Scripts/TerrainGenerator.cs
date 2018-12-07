@@ -14,16 +14,34 @@ public class TerrainGenerator : MonoBehaviour {
     public float offsetY = 1000f;
     
 	void Start () {
+        if (width != 0 || height != 0)
+        {
+            GenerateEverything();
+        }
+
+
+    }
+
+    public void setGenerationData(int w, int h, int d, int s, float offx, float offy)
+    {
+        width = w;
+        height = h;
+        depth = d;
+        scale = s;
+        offsetX = offx;
+        offsetY = offy;
+    }
+
+    public void GenerateEverything()
+    {
         // takes random offset so every time the map is different
         offsetX = Random.Range(0f, 9999f);
         offsetY = Random.Range(0f, 9999f);
 
-        Terrain terrain = GetComponent<Terrain>();
+        Terrain terrain = gameObject.GetComponent<Terrain>();
         terrain.terrainData = GenerateTerrain(terrain.terrainData);
         GenerateMapTextures(terrain);
         GenerateTerrainDetail(terrain.terrainData);
-
-
     }
 
     private void GenerateMapTextures(Terrain terrain)

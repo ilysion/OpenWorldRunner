@@ -434,7 +434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   jumpHeight: 0.3
-  terrain: {fileID: 1192164549}
+  playerTerrain: {fileID: 1192164549}
   mouseSensitivity: 100
 --- !u!136 &1336128622
 CapsuleCollider:

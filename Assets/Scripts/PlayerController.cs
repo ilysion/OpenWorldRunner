@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour {
 
 	public float moveSpeed;
 	public float jumpHeight;
-	public Terrain terrain;
+	public Terrain playerTerrain;
 	// Distance from center of model to bottom
 	private float playerHeightOffset = 1;
 	//private Rigidbody rb; 
@@ -47,9 +47,9 @@ public class PlayerController : MonoBehaviour {
 		} else {
 			direction = Time.deltaTime * new Vector3(horizontal, 0, vertical);
 		}
-
+        
 		// Distance between terrain and player 
-		float deltaHeight = terrain.SampleHeight(transform.position) - transform.position.y + playerHeightOffset;
+		float deltaHeight = playerTerrain.SampleHeight(transform.position) - transform.position.y + playerHeightOffset;
 
 		// If jump value is higher than terrain height use jump value
 		transform.Translate(moveSpeed * direction.x, Mathf.Max(jumpAcceleration, deltaHeight), moveSpeed * direction.z);
@@ -60,4 +60,9 @@ public class PlayerController : MonoBehaviour {
 			jumping = false;
 		}
  	}
+    public void changeTerrainTo(Terrain newTerrainTile)
+    {
+        playerTerrain = newTerrainTile;
+    }
+
 }
