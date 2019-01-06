@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
+    public static bool cloudsEnabled = true;
+
 	// Use this for initialization
 	void Start () {
 		

@@ -9,33 +9,41 @@ public class CloudController : MonoBehaviour
     public int cloudMinZ = 35;
     public int cloudMaxY = 80;
 
-    public TerrainGenerator generator;
-
     public GameObject cloudPrefab;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        int xStart = 0;
-        int zStart = 0;
-        int xMax = xStart + generator.height;
-        int zMax = zStart + generator.width;
+    public int cloudCount = 0;
 
-        int cloudZMaxTill = 0;
-        int cloudZTotal = 0;
+    public static int max = 1024;
+
+    public void Update()
+    {
+        if (cloudCount == 0)
+            generateCloud();
+    }
+
+    public void generateCloud()
+    {
+        float xStart = gameObject.transform.position.x;
+        float zStart = gameObject.transform.position.z;
+        float xMax = xStart + gameObject.GetComponentsInChildren<TerrainGenerator>()[0].height;
+        float zMax = zStart + gameObject.GetComponentsInChildren<TerrainGenerator>()[0].width;
+        float cloudZMaxTill = 0;
+        float cloudZTotal = zStart;
         while (true)
         {
             if (cloudZTotal >= zMax) break;
-            int cloudXTotal = 0;
-            for (int i = 0; i <= 100; i++)
+            float cloudXTotal = xStart;
+            for (int i = 0; i <= 5; i++)
             {
-                int cloudChance = Random.Range(0, 4);
+                int cloudChance = Random.Range(0, 6);
                 int cloudX = Random.Range(cloudMinX, cloudMaxX);
                 int cloudZ = Random.Range(cloudMinZ, cloudMaxY);
                 if (cloudXTotal + cloudX >= xMax || cloudZTotal + cloudZ >= zMax) break;
                 cloudXTotal += cloudX;
-                if (cloudChance == 0)
+                Collider[] intersecting = Physics.OverlapBox(new Vector3(cloudXTotal, 100, cloudZTotal + cloudZ), new Vector3(cloudX, 4.5f, cloudZ) / 2);
+                if (cloudChance == 0 && intersecting.Length == 0)
                 {
+                    cloudCount++;
                     GameObject temp = Instantiate(cloudPrefab, this.gameObject.transform);
                     temp.transform.position = new Vector3(cloudXTotal, 100, cloudZTotal + cloudZ);
                     temp.transform.localScale = new Vector3(cloudX, 4.5f, cloudZ);
@@ -44,11 +52,5 @@ public class CloudController : MonoBehaviour
             }
             cloudZTotal += cloudZMaxTill;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
