@@ -11,6 +11,7 @@ public class MainCamera : MonoBehaviour {
 	public float distance = 7.0f;
 	public float mouseSensitivity = 100f;
 	private float rotationAngle = -1.5f;
+	private float lookOffset = 0f;
 
 	// Use this for initialization
 	void Start () {
@@ -20,10 +21,13 @@ public class MainCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		float mouseX = -1 * Input.GetAxis("Mouse X") * Time.deltaTime;
+		Vector3 inititalPosition = transform.position;
+
+		float mouseX = -1 * Input.GetAxis("Mouse X") * Time.deltaTime * mouseSensitivity;
+		float mouseY = -1 * Input.GetAxis("Mouse Y") * Time.deltaTime * mouseSensitivity;
 		
 		// Rotate (around the player) using mouse
-		rotationAngle = rotationAngle + (mouseX * mouseSensitivity);
+		rotationAngle = rotationAngle + (mouseX);
 		Vector3 cameraPositionForRotation = new Vector3(distance * Mathf.Cos(rotationAngle), height, distance * Mathf.Sin(rotationAngle));
 
 		// Stick to player
@@ -39,9 +43,18 @@ public class MainCamera : MonoBehaviour {
 			
 		// Pick highest camera position so the camera stays aboe ground
 		cameraPositionForPlayer.y = Mathf.Max(hit.point.y + 5, cameraPositionForPlayer.y);
-		
-		transform.position = cameraPositionForPlayer;
-		transform.LookAt(playerPosition);
+
+		// This enables looking up and down with mouse (with limits)
+		lookOffset -= mouseY;
+		lookOffset = Mathf.Clamp(lookOffset, -10f, 10f);
+
+		// Set camera position smoothly
+		transform.position = Vector3.Lerp(inititalPosition, cameraPositionForPlayer, 20 * Time.deltaTime);
+
+		// Look at target smoothly
+		Quaternion targetRotation = Quaternion.LookRotation(new Vector3(playerPosition.x, playerPosition.y + lookOffset, playerPosition.z) - transform.position);
+		transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 20 * Time.deltaTime);
+
 
 	}
 
