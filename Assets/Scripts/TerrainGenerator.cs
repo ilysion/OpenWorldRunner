@@ -37,24 +37,8 @@ public class TerrainGenerator : MonoBehaviour {
     }
 
 	public void addOffsets(float offx, float offy){
-		if(offx > 0)
-		{
 		offsetX += offx;
-		}
-		else
-		{
-		offsetX += offx;
-		}
-
-		if(offy > 0)
-		{
 		offsetY += offy;
-		}
-		else
-		{
-		offsetY += offy;
-		}
-
 		GenerateEverything();
 	}
 

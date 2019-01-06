@@ -308,6 +308,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 1000
   offsetY: 1000
+  givenOffsetX: 0
+  givenOffsetY: 0
 --- !u!1 &441349225
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,6 +477,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 1000
   offsetY: 1000
+  givenOffsetX: 0
+  givenOffsetY: 0
 --- !u!1 &578315857
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +577,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 1000
   offsetY: 1000
+  givenOffsetX: 0
+  givenOffsetY: 0
 --- !u!1 &606416242
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,6 +677,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 1000
   offsetY: 1000
+  givenOffsetX: 0
+  givenOffsetY: 0
 --- !u!1 &819351234
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,6 +777,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 1000
   offsetY: 1000
+  givenOffsetX: 0
+  givenOffsetY: 0
 --- !u!1 &827587282
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +877,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 1000
   offsetY: 1000
+  givenOffsetX: 0
+  givenOffsetY: 0
 --- !u!1 &920421599
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,6 +1034,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 0
   offsetY: 0
+  givenOffsetX: 0
+  givenOffsetY: 0
 --- !u!114 &1192164552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1134,6 +1148,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 0
   offsetY: 0
+  givenOffsetX: 0
+  givenOffsetY: 0
 --- !u!1 &1329958686
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,6 +1248,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 1000
   offsetY: 1000
+  givenOffsetX: 0
+  givenOffsetY: 0
 --- !u!1 &1336128620
 GameObject:
   m_ObjectHideFlags: 0
