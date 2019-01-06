@@ -9,11 +9,28 @@ public class ButtonController : MonoBehaviour {
     public GameObject mainMenu;
     public GameObject options;
     public GameObject credits;
+    public Dropdown dropdown;
     public Button backButton;
+
+    public void Start()
+    {
+        int current = QualitySettings.GetQualityLevel();
+        List<string> insertable = new List<string>();
+        foreach (var x in QualitySettings.names)
+            insertable.Add(x);
+
+        dropdown.AddOptions(insertable);
+        dropdown.value = current;
+    }
 
     public void playButton()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void updateQuality()
+    {
+        QualitySettings.SetQualityLevel(dropdown.value);
     }
 
     public void optionsButton()

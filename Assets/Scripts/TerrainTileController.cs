@@ -192,48 +192,50 @@ public class TerrainTileController : MonoBehaviour
     {
         //offset goes +- 20 because of the scale
 
-        Center.GetComponents<CloudController>()[0].generateCloud();
 
         N.transform.position = Center.transform.position + new Vector3(0,   0,  tw);
         N.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData
 		(tw, tw, cDepth, cScale, centerOffsetX + 20, centerOffsetY);
-        N.GetComponents<CloudController>()[0].generateCloud();
 
         S.transform.position = Center.transform.position + new Vector3(0,   0, -tw);
         S.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData
 		(tw, tw, cDepth, cScale,centerOffsetX - 20, centerOffsetY);
-        S.GetComponents<CloudController>()[0].generateCloud();
 
         E.transform.position = Center.transform.position + new Vector3( tw, 0,  0);
         E.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData
 		(tw, tw, cDepth, cScale, centerOffsetX, centerOffsetY + 20);
-        E.GetComponents<CloudController>()[0].generateCloud();
 
         W.transform.position = Center.transform.position + new Vector3(-tw, 0,  0);
         W.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData
 		(tw, tw, cDepth, cScale, centerOffsetX, centerOffsetY - 20);
-        W.GetComponents<CloudController>()[0].generateCloud();
-
 
         NE.transform.position = Center.transform.position + new Vector3( tw, 0,  tw);
         NE.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData
 		(tw, tw, cDepth, cScale,centerOffsetX + 20, centerOffsetY + 20);
-        NE.GetComponents<CloudController>()[0].generateCloud();
 
         SE.transform.position = Center.transform.position + new Vector3( tw, 0, -tw);
         SE.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData
 		(tw, tw, cDepth, cScale,centerOffsetX - 20, centerOffsetY + 20);
-        SE.GetComponents<CloudController>()[0].generateCloud();
 
         SW.transform.position = Center.transform.position + new Vector3(-tw, 0,  tw);
         SW.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData
 		(tw, tw, cDepth, cScale,centerOffsetX + 20, centerOffsetY - 20);
-        SW.GetComponents<CloudController>()[0].generateCloud();
 
         NW.transform.position = Center.transform.position + new Vector3(-tw, 0, -tw);
         NW.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData
 		(tw, tw, cDepth, cScale,centerOffsetX - 20, centerOffsetY - 20);
-        NW.GetComponents<CloudController>()[0].generateCloud();
+
+        if (GameController.cloudsEnabled)
+        {
+            N.GetComponents<CloudController>()[0].generateCloud();
+            S.GetComponents<CloudController>()[0].generateCloud();
+            E.GetComponents<CloudController>()[0].generateCloud();
+            NE.GetComponents<CloudController>()[0].generateCloud();
+            SE.GetComponents<CloudController>()[0].generateCloud();
+            SW.GetComponents<CloudController>()[0].generateCloud();
+            Center.GetComponents<CloudController>()[0].generateCloud();
+            NW.GetComponents<CloudController>()[0].generateCloud();
+        }
     }
 
 	private void editTileTerrains(float a, float b)
