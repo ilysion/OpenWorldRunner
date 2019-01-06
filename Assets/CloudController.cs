@@ -9,27 +9,40 @@ public class CloudController : MonoBehaviour
     public int cloudMinZ = 35;
     public int cloudMaxY = 80;
 
+    public TerrainGenerator generator;
+
     public GameObject cloudPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
-        int cloudXTotal = 0;
+        int xStart = 0;
+        int zStart = 0;
+        int xMax = xStart + generator.height;
+        int zMax = zStart + generator.width;
+
+        int cloudZMaxTill = 0;
         int cloudZTotal = 0;
-        int cloudZPrevious = 0;
-        for(int i = 0; i <= 100; i++)
+        while (true)
         {
-            int cloudChance = Random.Range(0, 4);
-            int cloudX = Random.Range(cloudMinX, cloudMaxX);
-            int cloudZ = Random.Range(cloudMinZ, cloudMaxY);
-            if (cloudChance == 0)
+            if (cloudZTotal >= zMax) break;
+            int cloudXTotal = 0;
+            for (int i = 0; i <= 100; i++)
             {
-                GameObject temp = Instantiate(cloudPrefab, this.gameObject.transform);
-                temp.transform.position = new Vector3(cloudXTotal, 100, cloudZTotal);
-                temp.transform.localScale = new Vector3(cloudX, 4.5f, cloudZ);
+                int cloudChance = Random.Range(0, 4);
+                int cloudX = Random.Range(cloudMinX, cloudMaxX);
+                int cloudZ = Random.Range(cloudMinZ, cloudMaxY);
+                if (cloudXTotal + cloudX >= xMax || cloudZTotal + cloudZ >= zMax) break;
+                cloudXTotal += cloudX;
+                if (cloudChance == 0)
+                {
+                    GameObject temp = Instantiate(cloudPrefab, this.gameObject.transform);
+                    temp.transform.position = new Vector3(cloudXTotal, 100, cloudZTotal + cloudZ);
+                    temp.transform.localScale = new Vector3(cloudX, 4.5f, cloudZ);
+                    if (cloudZ > cloudZMaxTill) cloudZMaxTill = cloudZ;
+                }
             }
-            cloudXTotal += cloudX;
-            cloudZPrevious = cloudZ;
+            cloudZTotal += cloudZMaxTill;
         }
     }
 

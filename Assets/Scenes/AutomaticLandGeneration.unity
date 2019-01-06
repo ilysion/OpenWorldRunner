@@ -889,6 +889,7 @@ GameObject:
   m_Component:
   - component: {fileID: 920421601}
   - component: {fileID: 920421600}
+  - component: {fileID: 920421602}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -922,6 +923,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &920421602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920421599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff11299460e6194a84334b1fd3fa861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cloudMinX: 30
+  cloudMaxX: 100
+  cloudMinZ: 35
+  cloudMaxY: 80
+  generator: {fileID: 1192164551}
+  cloudPrefab: {fileID: 3369442746808299624, guid: 602847e82608b08479fcc0dc72174df4,
+    type: 3}
 --- !u!1 &1192164547
 GameObject:
   m_ObjectHideFlags: 0
