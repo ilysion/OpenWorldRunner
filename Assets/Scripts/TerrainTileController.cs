@@ -23,7 +23,7 @@ public class TerrainTileController : MonoBehaviour
     /// 0=Center, 1=N, 2=S, 3=E, 4=W, 5=NE, 6=NW, 7=SE, 8=SW
     /// </summary>
     private int _ret; //the tile occupied by the player
-    private int tw; //terrain width
+    private int tw, cDepth, cScale; //terrain width
 
     private void Awake()
     {
@@ -43,6 +43,9 @@ public class TerrainTileController : MonoBehaviour
         NW = gameObject.transform.GetChild(7).GetComponent<Terrain>();
         
         tw = (int)Center.terrainData.size.x;
+        cDepth = (int)Center.GetComponent<TerrainGenerator>().depth;
+        cScale = (int)Center.GetComponent<TerrainGenerator>().scale;
+
         SetTilesAtStart();
     }
 
@@ -145,6 +148,8 @@ public class TerrainTileController : MonoBehaviour
                     break;
                 case 4: //W
                     Center.transform.position = W.transform.position;
+					//Center.GetComponent<TerrainGenerator>().givenOffsetY -= 20
+					W.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 0, -40);
                     break;
                 case 5: //NE
                     Center.transform.position = NE.transform.position;
@@ -167,18 +172,46 @@ public class TerrainTileController : MonoBehaviour
 
     private void SetTilesAtStart()
     {
+	//offset goes +- 20 because of the scale
+
         N.transform.position = Center.transform.position + new Vector3(0,   0,  tw);
-        gameObject.transform.GetComponentsInChildren<TerrainGenerator>()[1].setGenerationData(128, 128, 0, 0, 0, 0);
-        gameObject.transform.GetComponentsInChildren<TerrainGenerator>()[1].GenerateEverything();
+        N.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 20, 0);
 
         S.transform.position = Center.transform.position + new Vector3(0,   0, -tw);
+        S.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, -20, 0);
+
         E.transform.position = Center.transform.position + new Vector3( tw, 0,  0);
+        E.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 0, 20);
+
         W.transform.position = Center.transform.position + new Vector3(-tw, 0,  0);
+        W.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 0, -20);
+
+
 
         NE.transform.position = Center.transform.position + new Vector3( tw, 0,  tw);
+        NE.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 20, 20);
+
         SE.transform.position = Center.transform.position + new Vector3( tw, 0, -tw);
+        SE.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, -20, 20);
+        
         SW.transform.position = Center.transform.position + new Vector3(-tw, 0,  tw);
+        SW.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 20, -20);
+
         NW.transform.position = Center.transform.position + new Vector3(-tw, 0, -tw);
+        NW.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, -20, -20);
     }
+
+	private void editTileTerrains(float a, float b)
+	{
+        N.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 20, 0);
+        S.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, -20, 0);
+        E.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 0, 20);
+        W.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 0, -20);
+
+        NE.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 20, 20);
+        SE.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, -20, 20);
+        SW.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, 20, -20);
+        NW.transform.GetComponentsInChildren<TerrainGenerator>()[0].setGenerationData(tw, tw, cDepth, cScale, -20, -20);
+	}
 
 }

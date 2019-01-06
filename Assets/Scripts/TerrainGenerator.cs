@@ -5,13 +5,15 @@ using System.Linq;
 
 public class TerrainGenerator : MonoBehaviour {
 
-    public int width = 1024;
-    public int height = 1024;
+    public int width = 128;
+    public int height = 128;
     public int depth = 20;
     public float scale = 20f;
 
-    public float offsetX = 1000f;
-    public float offsetY = 1000f;
+    public float offsetX = 0f;
+    public float offsetY = 0f;
+	public float givenOffsetX = 0f;
+	public float givenOffsetY = 0f;
     
 	void Start () {
         if (width != 0 || height != 0)
@@ -28,16 +30,39 @@ public class TerrainGenerator : MonoBehaviour {
         height = h;
         depth = d;
         scale = s;
-        offsetX = offx;
+		offsetX = offx;
         offsetY = offy;
+		GenerateEverything();
+
     }
+
+	public void addOffsets(float offx, float offy){
+		if(offx > 0)
+		{
+		offsetX += offx;
+		}
+		else
+		{
+		offsetX += offx;
+		}
+
+		if(offy > 0)
+		{
+		offsetY += offy;
+		}
+		else
+		{
+		offsetY += offy;
+		}
+
+		GenerateEverything();
+	}
 
     public void GenerateEverything()
     {
         // takes random offset so every time the map is different
-        offsetX = Random.Range(0f, 9999f);
-        offsetY = Random.Range(0f, 9999f);
-
+        //offsetX = Random.Range(0f, 9999f);
+        //offsetY = Random.Range(0f, 9999f);
         Terrain terrain = gameObject.GetComponent<Terrain>();
         terrain.terrainData = GenerateTerrain(terrain.terrainData);
         GenerateMapTextures(terrain);
