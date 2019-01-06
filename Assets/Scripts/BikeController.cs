@@ -8,6 +8,7 @@ public class BikeController : MonoBehaviour {
 	public float turning = 200; 
 	public float dragOnGround = 2f;
 	private Rigidbody rb; 
+	private bool uprithing = false;
 
 	// Use this for initialization
 	void Start () {
@@ -24,14 +25,14 @@ public class BikeController : MonoBehaviour {
 		
 		// Distance to terrain below bike 
 		RaycastHit hit;
-		Ray downRay = new Ray(transform.position, Vector3.down);
+		Ray downRay = new Ray(transform.position, -transform.up);
 		if (Physics.Raycast(downRay, out hit)) {
 			//Debug.Log(hit.distance);
 		}
 
 
 		// Bike on ground - enable controlling the bike
-		if (hit.distance <= 0.5) {
+		if (hit.distance <= 1.5) {
 			
 			rb.drag = dragOnGround;
 
@@ -48,12 +49,20 @@ public class BikeController : MonoBehaviour {
 
 		}
 
+
 		// Keeps the bike upright
-		if (horizontal == 0 || hit.distance > 0.5) {
-			rb.AddTorque(transform.forward * (transform.rotation.z * -15000 * Time.deltaTime));
+		Quaternion rot = Quaternion.FromToRotation(transform.up, Vector3.up);
+		if (horizontal == 0 || hit.distance > 1.5) {
+			rb.AddTorque(new Vector3(rot.x, rot.y, rot.z) * 30000 * Time.deltaTime);
+		// Adding multiple torques (keeping upright and steering both use torque) doesn't work
+		// So this alternates between steering and adding upright force while steering
+		} else if (uprithing) {
+			rb.AddTorque(new Vector3(rot.x, rot.y, rot.z) * 30000 * Time.deltaTime);
+			uprithing = false;
+		} else {
+			uprithing = true;
 		}
 
-		//TODO do something when the bike falls over (rotate back up)
 
  	}
 
