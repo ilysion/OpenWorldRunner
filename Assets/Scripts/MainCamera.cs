@@ -9,48 +9,38 @@ public class MainCamera : MonoBehaviour {
 	public float height = 2.5f;
 	// How far behind player
 	public float distance = 7.0f;
+	public float mouseSensitivity = 100f;
+	private float rotationAngle = -1.5f;
 
 	// Use this for initialization
 	void Start () {
-
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		float mouseX = -1 * Input.GetAxis("Mouse X") * Time.deltaTime;
 		
-		// Get player's current rotation
-		float playerAngle = Mathf.Deg2Rad * player.transform.rotation.eulerAngles.y;
+		// Rotate (around the player) using mouse
+		rotationAngle = rotationAngle + (mouseX * mouseSensitivity);
+		Vector3 cameraPositionForRotation = new Vector3(distance * Mathf.Cos(rotationAngle), height, distance * Mathf.Sin(rotationAngle));
 
 		// Stick to player
 		Vector3 playerPosition = player.transform.position;
-		Vector3 cameraPositionForPlayer = new Vector3(playerPosition.x, playerPosition.y + height, playerPosition.z - distance);
+		Vector3 cameraPositionForPlayer = cameraPositionForRotation + playerPosition;
 
 		// Find distance to ground
 		RaycastHit hit;
-		Ray downRay = new Ray(cameraPositionForPlayer, Vector3.down);
+		Ray downRay = new Ray(new Vector3(cameraPositionForPlayer.x, 90, cameraPositionForPlayer.z), Vector3.down);
 		if (Physics.Raycast(downRay, out hit)) {
-			Debug.Log("Camera: " + hit.distance);
-			// ???
-		} else {
-			// If camera would appear under terrain cast ray upwards
-			Ray upRay = new Ray(cameraPositionForPlayer, Vector3.up);
-			if (Physics.Raycast(upRay, out hit)) {
-				Debug.Log("Camera Below: " + hit.distance);
-				// ???
-			}
-		}
+			//Debug.Log("Camera: " + hit.distance);
+		} 
 			
-		// Make camera stay above ground
-		if (hit.distance < 5) {
-			cameraPositionForPlayer.y = hit.point.y + 5;
-		}
-
-		// Rotate around player depending on player's rotation
-		//Vector3 cameraPositionForRotation = distance * new Vector3(-1 * Mathf.Sin(playerAngle), 0, -1 * Mathf.Cos(playerAngle));
-
-		//Vector3 cameraPositionForRotation = distance * new Vector3(-1, 0, -1);
+		// Pick highest camera position so the camera stays aboe ground
+		cameraPositionForPlayer.y = Mathf.Max(hit.point.y + 5, cameraPositionForPlayer.y);
 		
-		transform.position = cameraPositionForPlayer; // + cameraPositionForRotation;
+		transform.position = cameraPositionForPlayer;
 		transform.LookAt(playerPosition);
 
 	}

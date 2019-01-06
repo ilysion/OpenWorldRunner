@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BikeController : MonoBehaviour {
 
-	public float acceleration = 400f;
-	public float turning = 200f; 
+	public float acceleration = 400;
+	public float turning = 200; 
 	public float dragOnGround = 2f;
 	private Rigidbody rb; 
 
@@ -18,15 +18,15 @@ public class BikeController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		float horizontal = Input.GetAxis("Horizontal"); //TODO Time.Deltatime
-		float vertical = Input.GetAxis("Vertical");
+
+		float horizontal = Input.GetAxis("Horizontal") * Time.deltaTime * 300;
+		float vertical = Input.GetAxis("Vertical") * Time.deltaTime * 300;
 		
 		// Distance to terrain below bike 
 		RaycastHit hit;
 		Ray downRay = new Ray(transform.position, Vector3.down);
 		if (Physics.Raycast(downRay, out hit)) {
-			Debug.Log(hit.distance);
-			// ???
+			//Debug.Log(hit.distance);
 		}
 
 
@@ -50,7 +50,7 @@ public class BikeController : MonoBehaviour {
 
 		// Keeps the bike upright
 		if (horizontal == 0 || hit.distance > 0.5) {
-			rb.AddTorque(transform.forward * (transform.rotation.z * -50));
+			rb.AddTorque(transform.forward * (transform.rotation.z * -15000 * Time.deltaTime));
 		}
 
 		//TODO do something when the bike falls over (rotate back up)
