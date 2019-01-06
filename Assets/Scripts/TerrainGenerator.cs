@@ -42,6 +42,12 @@ public class TerrainGenerator : MonoBehaviour {
 		GenerateEverything();
 	}
 
+	public void addOffsetsWOGeneration(float offx, float offy){
+		offsetX += offx;
+		offsetY += offy;
+	}
+
+
     public void GenerateEverything()
     {
         // takes random offset so every time the map is different
@@ -180,7 +186,7 @@ public class TerrainGenerator : MonoBehaviour {
                 {
                     strength = Random.Range(1, 5);
                     
-                    float grassTypeRandom = Random.Range(0, 3);
+                    float grassTypeRandom = Random.Range(0, 10);
                     if (grassTypeRandom < 1)
                     {
                         details0[x, y] = strength;
@@ -194,10 +200,10 @@ public class TerrainGenerator : MonoBehaviour {
                         details2[x, y] = strength;
                     }
                 }
-                else if (height <= 25)
+                else if (height <= 26)
                 {
                     int from = 0;
-                    int fromTo = Mathf.RoundToInt((height - 10) * 5);
+                    int fromTo = Mathf.RoundToInt((height - 10) * 3);
                     strength = Random.Range(1, 5);
                     float grassTypeRandom = Random.Range(from, fromTo);
                     if (grassTypeRandom < 1)
@@ -215,7 +221,7 @@ public class TerrainGenerator : MonoBehaviour {
                 }
                 else if (height > 15)
                 {
-                    int to = Mathf.RoundToInt((maxHeight - (height - 15)) * 10);
+                    int to = Mathf.RoundToInt((maxHeight - (height - 15)) * 8);
                     float stoneRandom = Random.Range(0, to);
                     if(stoneRandom < 1)
                     {
