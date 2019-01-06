@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -210,6 +210,7 @@ MonoBehaviour:
   player: {fileID: 1834244610}
   height: 2.5
   distance: 7
+  mouseSensitivity: 100
 --- !u!1 &441349225
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,8 +338,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cloudMinX: 30
   cloudMaxX: 100
-  cloudMinY: 35
+  cloudMinZ: 35
   cloudMaxY: 80
+  generator: {fileID: 1192164551}
   cloudPrefab: {fileID: 3369442746808299624, guid: 602847e82608b08479fcc0dc72174df4,
     type: 3}
 --- !u!1 &1192164547
@@ -439,6 +441,8 @@ MonoBehaviour:
   scale: 20
   offsetX: 1000
   offsetY: 1000
+  givenOffsetX: 0
+  givenOffsetY: 0
 --- !u!1 &1834244610
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,7 +468,8 @@ GameObject:
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834244610}
   serializedVersion: 2
   m_Mass: 20
@@ -479,7 +484,8 @@ Rigidbody:
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834244610}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -493,7 +499,8 @@ MonoBehaviour:
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834244610}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -505,7 +512,8 @@ BoxCollider:
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834244610}
   m_Enabled: 1
   m_CastShadows: 1
@@ -541,14 +549,16 @@ MeshRenderer:
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834244610}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!4 &1834244616
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1834244610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 57.431892, y: 34.67375, z: 54.46886}
