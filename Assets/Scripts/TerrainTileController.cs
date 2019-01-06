@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TerrainTileController : MonoBehaviour
 {
@@ -139,6 +140,7 @@ public class TerrainTileController : MonoBehaviour
             {
                 case 1: //N
                     Center.transform.position = N.transform.position;
+					//movedNorth();
 					editTileTerrains(20f, 0f);
                     break;
                 case 2: //S
@@ -220,6 +222,45 @@ public class TerrainTileController : MonoBehaviour
         SE.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsets(a, b);
         SW.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsets(a, b);
         NW.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsets(a, b);
+	}
+
+	//    NW   N   NE   +
+    //
+    //     W   C   E    Z
+    //                  
+    //    SW   S   SE   -
+    //      -  X  +
+
+	private void movedNorth()
+	{
+		TerrainData WData = W.terrainData;
+		TerrainData CData = Center.terrainData;
+		TerrainData EData = E.terrainData;
+		TerrainData NWData = NW.terrainData;
+		TerrainData NData = N.terrainData;
+		TerrainData NEData = NE.terrainData;
+
+		W.terrainData = NWData;
+		Center.terrainData = NData;
+		E.terrainData = NEData;
+		SW.terrainData = WData;
+		S.terrainData = CData;
+		SE.terrainData = EData;
+
+		
+		//new data
+		NW.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsets(20f, 0f);
+		N.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsets(20f, 0f);
+		NE.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsets(20f, 0f);
+
+
+		Center.GetComponent<TerrainGenerator>().addOffsetsWOGeneration(20f, 0f);
+        S.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsetsWOGeneration(20f, 0f);
+        E.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsetsWOGeneration(20f, 0f);
+        W.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsetsWOGeneration(20f, 0f);
+        SE.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsetsWOGeneration(20f, 0f);
+        SW.transform.GetComponentsInChildren<TerrainGenerator>()[0].addOffsetsWOGeneration(20f, 0f);
+        
 	}
 
 }
