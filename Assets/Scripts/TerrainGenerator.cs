@@ -5,15 +5,13 @@ using System.Linq;
 
 public class TerrainGenerator : MonoBehaviour {
 
-    public int width = 128;
-    public int height = 128;
+    public int width = 1024;
+    public int height = 1024;
     public int depth = 20;
     public float scale = 20f;
 
-    public float offsetX = 0f;
-    public float offsetY = 0f;
-	public float givenOffsetX = 0f;
-	public float givenOffsetY = 0f;
+    public float offsetX = 1000f;
+    public float offsetY = 1000f;
     
 	void Start () {
         if (width != 0 || height != 0)
@@ -30,29 +28,16 @@ public class TerrainGenerator : MonoBehaviour {
         height = h;
         depth = d;
         scale = s;
-		offsetX = offx;
+        offsetX = offx;
         offsetY = offy;
-		GenerateEverything();
-
     }
-
-	public void addOffsets(float offx, float offy){
-		offsetX += offx;
-		offsetY += offy;
-		GenerateEverything();
-	}
-
-	public void addOffsetsWOGeneration(float offx, float offy){
-		offsetX += offx;
-		offsetY += offy;
-	}
-
 
     public void GenerateEverything()
     {
         // takes random offset so every time the map is different
-        //offsetX = Random.Range(0f, 9999f);
-        //offsetY = Random.Range(0f, 9999f);
+        offsetX = Random.Range(0f, 9999f);
+        offsetY = Random.Range(0f, 9999f);
+
         Terrain terrain = gameObject.GetComponent<Terrain>();
         terrain.terrainData = GenerateTerrain(terrain.terrainData);
         GenerateMapTextures(terrain);
@@ -186,7 +171,7 @@ public class TerrainGenerator : MonoBehaviour {
                 {
                     strength = Random.Range(1, 5);
                     
-                    float grassTypeRandom = Random.Range(0, 10);
+                    float grassTypeRandom = Random.Range(0, 3);
                     if (grassTypeRandom < 1)
                     {
                         details0[x, y] = strength;
@@ -200,10 +185,10 @@ public class TerrainGenerator : MonoBehaviour {
                         details2[x, y] = strength;
                     }
                 }
-                else if (height <= 26)
+                else if (height <= 25)
                 {
                     int from = 0;
-                    int fromTo = Mathf.RoundToInt((height - 10) * 3);
+                    int fromTo = Mathf.RoundToInt((height - 10) * 5);
                     strength = Random.Range(1, 5);
                     float grassTypeRandom = Random.Range(from, fromTo);
                     if (grassTypeRandom < 1)
@@ -221,7 +206,7 @@ public class TerrainGenerator : MonoBehaviour {
                 }
                 else if (height > 15)
                 {
-                    int to = Mathf.RoundToInt((maxHeight - (height - 15)) * 8);
+                    int to = Mathf.RoundToInt((maxHeight - (height - 15)) * 10);
                     float stoneRandom = Random.Range(0, to);
                     if(stoneRandom < 1)
                     {
