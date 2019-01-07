@@ -17,12 +17,16 @@ public class CloudController : MonoBehaviour
 
     public void Update()
     {
+        if (!GameController.cloudsEnabled)
+            return;
         if (cloudCount == 0)
             generateCloud();
     }
 
     public void generateCloud()
     {
+        if (!GameController.cloudsEnabled)
+            return;
         float xStart = gameObject.transform.position.x;
         float zStart = gameObject.transform.position.z;
         float xMax = xStart + gameObject.GetComponentsInChildren<TerrainGenerator>()[0].height;

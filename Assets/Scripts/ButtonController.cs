@@ -10,6 +10,7 @@ public class ButtonController : MonoBehaviour {
     public GameObject options;
     public GameObject credits;
     public Dropdown dropdown;
+    public Toggle checkmark;
     public Button backButton;
 
     public void Start()
@@ -26,6 +27,11 @@ public class ButtonController : MonoBehaviour {
     public void playButton()
     {
         SceneManager.LoadScene(1);
+    }
+
+    public void clouds()
+    {
+        GameController.cloudsEnabled = checkmark.GetComponent<Toggle>().isOn;
     }
 
     public void updateQuality()
